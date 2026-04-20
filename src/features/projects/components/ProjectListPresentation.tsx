@@ -1,3 +1,5 @@
+'use client'
+//maneja estado y lógica de negocio
 import type { Project } from '../types'
 
 type Props = {

@@ -1,5 +1,5 @@
 "use client"
-
+// Este componente maneja estado (activeTab) y eventos (setActiveTab), por eso es un client component
 import { ProjectListContainer } from '@/features/projects/components/ProjectListContainer'
 import { TaskListContainer } from '@/features/tasksManagement/components/TaskListContainer'
 import { Tabs } from '@/shared/ui/molecules'

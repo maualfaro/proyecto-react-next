@@ -1,5 +1,5 @@
-'use client'
 
+//solo renderiza lista, no usa hooks ni eventos por eso es server component
 import { useState } from 'react'
 import { ProjectListPresentation } from './ProjectListPresentation'
 import type { Project } from '../types'

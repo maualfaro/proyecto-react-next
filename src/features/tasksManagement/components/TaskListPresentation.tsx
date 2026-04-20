@@ -2,12 +2,17 @@ import type { Task } from '../types'
 import { Card } from '@/shared/ui/molecules'
 import { Button, Input, Badge } from '@/shared/ui/atoms'
 
+//es server component porque no tiene estado ni eventos, solo renderiza la UI
+
 console.log({ Card, Button, Input, Badge })
 
 type Props = {
   tasks: Task[]
   newTask: string
+  error?: string
+  touched?: boolean
   onChangeNewTask: (value: string) => void
+  onBlurNewTask: () => void
   onAddTask: () => void
   onToggleTask: (id: string) => void
 }
@@ -15,10 +20,13 @@ type Props = {
 export function TaskListPresentation({
   tasks,
   newTask,
+  error,
+  touched,
   onChangeNewTask,
+  onBlurNewTask,
   onAddTask,
   onToggleTask,
-}: Props) {
+}: Props){
   return (
     <div
       style={{
@@ -39,11 +47,26 @@ export function TaskListPresentation({
       >
         <div style={{ flex: 1 }}>
           <div style={{ flex: 1 }}>
-        <Input
-          value={newTask}
-          onChange={onChangeNewTask}
-          placeholder="Escribe una nueva tarea..."
-        />
+        <div style={{ flex: 1 }}>
+      <Input
+        value={newTask}
+        onChange={onChangeNewTask}
+        onBlur={onBlurNewTask}
+        placeholder="Escribe una nueva tarea..."
+      />
+
+      {touched && error && (
+        <p
+          style={{
+            color: '#ef4444',
+            fontSize: 12,
+            marginTop: 4,
+          }}
+        >
+          {error}
+        </p>
+      )}
+    </div>
       </div>
         </div>
         <div style={{ flexShrink: 0 }}>

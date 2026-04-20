@@ -1,7 +1,6 @@
 "use client"
+// Este componente maneja estado (activeTab) y eventos (setActiveTab), por eso es un client component
 import { createContext, useContext, useState, ReactNode } from "react"
-
-/* ---------------- CONTEXT ---------------- */
 
 type TabsContextType = {
   activeTab: string
@@ -20,14 +19,10 @@ function useTabs() {
   return context
 }
 
-/* ---------------- TYPES ---------------- */
-
 type TabsProps = {
   children: ReactNode
   defaultTab?: string
 }
-
-/* ---------------- ROOT ---------------- */
 
 function TabsRoot({ children, defaultTab = "tasks" }: TabsProps) {
   const [activeTab, setActiveTab] = useState(defaultTab)
@@ -39,8 +34,6 @@ function TabsRoot({ children, defaultTab = "tasks" }: TabsProps) {
   )
 }
 
-/* ---------------- HEADER ---------------- */
-
 function Header({ children }: { children: ReactNode }) {
   return (
     <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
@@ -48,9 +41,6 @@ function Header({ children }: { children: ReactNode }) {
     </div>
   )
 }
-
-/* ---------------- TAB ---------------- */
-
 function Tab({
   id,
   children,
@@ -81,8 +71,6 @@ function Tab({
   )
 }
 
-/* ---------------- CONTENT ---------------- */
-
 function Content({
   id,
   children,
@@ -96,8 +84,6 @@ function Content({
 
   return <div>{children}</div>
 }
-
-/* ---------------- COMPOUND COMPONENT ---------------- */
 
 export const Tabs = Object.assign(TabsRoot, {
   Header,

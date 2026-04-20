@@ -1,3 +1,7 @@
+'use client'
+
+// Este componente maneja eventos (tiene eventos onClick)
+
 type ButtonProps = {
   label: string
   onClick?: () => void

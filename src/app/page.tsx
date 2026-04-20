@@ -1,6 +1,8 @@
 import { TabsView } from '@/shared/ui/molecules'
+import { TaskProvider } from '@/features/tasksManagement/context/TaskContext'
+import { AppProviders } from './providers/AppProviders'
 
-function App() {
+async function App() {
   return (
     <div
       style={{
@@ -50,7 +52,9 @@ function App() {
           </h1>
         </div>
       </div>
-      <TabsView />
+      <AppProviders>
+        <TabsView />
+      </AppProviders>
     </div>
   )
 }

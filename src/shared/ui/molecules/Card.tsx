@@ -1,3 +1,5 @@
+
+// Este componente es un server component porque no tiene estado ni eventos, solo renderiza la UI
 import React from 'react'
 
 type CardVariant = 'default' | 'elevated' | 'outline'

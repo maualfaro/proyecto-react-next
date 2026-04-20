@@ -1,44 +1,67 @@
 'use client'
 
-import { useState } from 'react'
 import { TaskListPresentation } from './TaskListPresentation'
-import type { Task } from '../types'
+import { useForm } from '@/shared/hooks'
+import { useTasks } from '../context/TaskContext'
+import { useAsync } from '@/shared/hooks'
 
+// Client Component — usa custom hook
 export function TaskListContainer() {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [newTask, setNewTask] = useState('')
+  const { tasks, addTask, toggleTask } = useTasks()
 
-  console.log('render TaskListContainer', { tasks, newTask })
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    validate,
+    reset,
+  } = useForm({ title: '' })
 
-  const addTask = () => {
-    if (!newTask.trim()) return
+  const fetchTasks = async () => {
+  await new Promise((res) => setTimeout(res, 2000))
 
-    const newItem: Task = {
-      id: Date.now().toString(),
-      title: newTask,
-      completed: false,
+  return [
+    { id: '1', title: 'Aprender React', completed: false },
+    { id: '2', title: 'Practicar hooks', completed: true },
+    ]
+  }
+  const { data, loading, error } = useAsync(fetchTasks, [])
+
+  const validateTask = (values: { title: string }) => {
+    const errors: { title?: string } = {}
+
+    if (!values.title.trim()) {
+      errors.title = 'La tarea es requerida'
     }
 
-    setTasks([...tasks, newItem])
-    setNewTask('')
+    return errors
   }
 
-  const toggleTask = (id: string) => {
-    const updated = tasks.map(task =>
-      task.id === id
-        ? { ...task, completed: !task.completed }
-        : task
-    )
+  const handleAddTask = () => {
+  handleBlur('title') 
 
-    setTasks(updated)
-  }
+  const validationErrors = validate(validateTask)
+
+  if (Object.keys(validationErrors).length > 0) return
+
+  addTask(values.title)
+  reset()
+}
+  if (loading) return <p>Cargando tareas...</p>
+
+  if (error) return <p>Error al cargar tareas</p>
 
   return (
     <TaskListPresentation
       tasks={tasks}
-      newTask={newTask}
-      onChangeNewTask={setNewTask}
-      onAddTask={addTask}
+      newTask={values.title}
+      error={errors.title}
+      touched={touched.title}
+      onChangeNewTask={(value) => handleChange('title', value)}
+      onBlurNewTask={() => handleBlur('title')}
+      onAddTask={handleAddTask}
       onToggleTask={toggleTask}
     />
   )

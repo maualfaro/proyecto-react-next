@@ -2,7 +2,7 @@ type BadgeProps = {
   text: string
   variant?: 'success' | 'warning'
 }
-
+//server component porque no tiene estado ni eventos, solo renderiza la UI
 export function Badge({ text, variant = 'warning' }: BadgeProps) {
   return (
     <span
