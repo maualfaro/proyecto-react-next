@@ -19,14 +19,14 @@ export function TaskListContainer() {
     reset,
   } = useForm({ title: '' })
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (signal: AbortSignal) => {
   await new Promise((res) => setTimeout(res, 2000))
 
   return [
     { id: '1', title: 'Aprender React', completed: false },
     { id: '2', title: 'Practicar hooks', completed: true },
-    ]
-  }
+  ]
+}
   const { data, loading, error } = useAsync(fetchTasks, [])
 
   const validateTask = (values: { title: string }) => {

@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏗️ Práctica de Arquitectura en React
 
-## Getting Started
+## 📚 Información del curso
 
-First, run the development server:
+- **Curso:** React Avanzado
+
+---
+
+## 🚀 Descripción del proyecto
+
+Este proyecto demuestra una arquitectura escalable en React utilizando:
+
+- Estructura basada en features (por funcionalidades)
+- Principios de Atomic Design (Átomos y Moléculas)
+- Patrón Container / Presentational
+- Componentes compuestos (Compound Components)
+- TypeScript para tipado seguro
+
+---
+
+## 🧱 Arquitectura
+
+### 📁 Estructura basada en features
+
+Cada funcionalidad está aislada y es autónoma:
+
+src/features/tasks/
+
+- components/
+- hooks/
+- utils/
+- types.ts
+- index.ts
+
+---
+
+### 🎨 Atomic Design
+
+#### Átomos
+
+Componentes básicos y reutilizables:
+
+- Button
+
+---
+
+#### Moléculas
+
+Componentes compuestos:
+
+- Card
+- Tabs (Componente compuesto)
+
+---
+
+### 🧠 Patrones utilizados
+
+#### Container / Presentational
+
+- `TaskListContainer` → maneja lógica y estado
+- `TaskListPresentation` → maneja la UI
+
+---
+
+#### Componentes compuestos
+
+- `Tabs`
+  - Tabs.Header
+  - Tabs.Tab
+  - Tabs.Content
+
+---
+
+## ⚙️ Instrucciones de instalación
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
