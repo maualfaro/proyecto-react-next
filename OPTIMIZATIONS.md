@@ -31,3 +31,7 @@ Después:
 
 Se utilizó `useMemo` para optimizar el filtrado de tareas.
 
+## 📊 Evidencia con React DevTools Profiler
+
+![Profiler](./profiler.png)
+
