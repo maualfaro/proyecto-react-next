@@ -1,15 +1,31 @@
 'use client'
 
-import { useReducer } from 'react'
+import { useReducer, useEffect } from 'react'
 import { taskReducer, initialState } from '../state/taskReducer'
 import type { Task } from '../types'
 
+const getInitialTasks = (): Task[] => {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const stored = localStorage.getItem('tasks')
+    return stored ? JSON.parse(stored) : []
+  } catch {
+    return []
+  }
+}
+
 export function useTaskManager() {
-  const [state, dispatch] = useReducer(taskReducer, initialState)
+  const [state, dispatch] = useReducer(taskReducer, {
+    ...initialState,
+    tasks: getInitialTasks(), 
+  })
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(state.tasks))
+  }, [state.tasks])
 
   const addTask = (title: string) => {
-    if (!title.trim()) return
-
     const newTask: Task = {
       id: Date.now().toString(),
       title,

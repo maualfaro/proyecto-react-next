@@ -14,6 +14,7 @@ type Props = {
   onBlurNewTask: () => void
   onAddTask: () => void
   onToggleTask: (id: string) => void
+  onDeleteTask: (id: string) => void
   search: string
   setSearch: (value: string) => void
   filter: Filter
@@ -29,6 +30,7 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
   onBlurNewTask,
   onAddTask,
   onToggleTask,
+  onDeleteTask,
   filter,
   setFilter,
   search,
@@ -127,6 +129,7 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
               key={task.id}
               task={task}
               onToggle={onToggleTask}
+              onDelete={onDeleteTask}
             />
           ))
         )}

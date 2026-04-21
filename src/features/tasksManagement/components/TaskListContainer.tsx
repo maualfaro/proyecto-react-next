@@ -7,9 +7,9 @@ import { useAsync } from '@/shared/hooks'
 import { useMemo, useState, useCallback } from 'react'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 
-// Client Component — usa custom hook
 export function TaskListContainer() {
-  const { tasks, addTask, toggleTask } = useTasks()
+  const { tasks, addTask, toggleTask, deleteTask } = useTasks()
+
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
 
@@ -26,25 +26,26 @@ export function TaskListContainer() {
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all')
 
   const filteredTasks = useMemo(() => {
-  console.log('recalculando filtro + búsqueda...')
+    console.log('recalculando filtro + búsqueda...')
 
-  let result = tasks
+    let result = tasks
 
-  if (filter === 'completed') {
-    result = result.filter(t => t.completed)
-  }
+    if (filter === 'completed') {
+      result = result.filter(t => t.completed)
+    }
 
-  if (filter === 'pending') {
-    result = result.filter(t => !t.completed)
-  }
-  if (debouncedSearch.trim()) {
-    result = result.filter(t =>
-      t.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-    )
-  }
+    if (filter === 'pending') {
+      result = result.filter(t => !t.completed)
+    }
 
-  return result
-}, [tasks, filter, debouncedSearch])
+    if (debouncedSearch.trim()) {
+      result = result.filter(t =>
+        t.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+      )
+    }
+
+    return result
+  }, [tasks, filter, debouncedSearch])
 
   const fetchTasks = async (signal: AbortSignal) => {
     await new Promise((res) => setTimeout(res, 2000))
@@ -67,17 +68,32 @@ export function TaskListContainer() {
     return errors
   }
 
-  const handleChangeTask = useCallback((value: string) => {
-    handleChange('title', value)
-  }, [handleChange])
+  const handleChangeTask = useCallback(
+    (value: string) => {
+      handleChange('title', value)
+    },
+    [handleChange]
+  )
 
   const handleBlurTask = useCallback(() => {
     handleBlur('title')
   }, [handleBlur])
 
-  const handleToggleTask = useCallback((id: string) => {
-    toggleTask(id)
-  }, [toggleTask])
+  const handleToggleTask = useCallback(
+    (id: string) => {
+      toggleTask(id)
+    },
+    [toggleTask]
+  )
+
+  const handleDeleteTask = useCallback(
+    (id: string) => {
+      if (!confirm('¿Eliminar tarea?')) return
+
+      deleteTask(id)
+    },
+    [deleteTask]
+  )
 
   const handleAddTask = useCallback(() => {
     handleBlur('title')
@@ -90,6 +106,7 @@ export function TaskListContainer() {
     reset()
   }, [handleBlur, validate, addTask, values.title, reset])
 
+  // ⏳ estados async
   if (loading) return <p>Cargando tareas...</p>
   if (error) return <p>Error al cargar tareas</p>
 
@@ -107,6 +124,7 @@ export function TaskListContainer() {
       onBlurNewTask={handleBlurTask}
       onAddTask={handleAddTask}
       onToggleTask={handleToggleTask}
+      onDeleteTask={handleDeleteTask} 
     />
   )
 }

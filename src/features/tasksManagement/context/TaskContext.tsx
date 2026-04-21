@@ -4,6 +4,7 @@ import { createContext, useContext, ReactNode } from 'react'
 import { useTaskManager } from '../hooks/useTaskManager'
 import type { Task } from '../types'
 
+
 type TaskContextType = {
   tasks: Task[]
   addTask: (title: string) => void

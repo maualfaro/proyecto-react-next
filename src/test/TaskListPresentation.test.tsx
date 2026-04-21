@@ -12,6 +12,8 @@ const mockProps = {
   onToggleTask: jest.fn(),
   filter: 'all' as const,
   setFilter: jest.fn(),
+  search: '',
+  setSearch: jest.fn(),
 }
 
 test('muestra mensaje cuando no hay tareas', () => {

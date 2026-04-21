@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TaskListContainer } from '../features/tasksManagement/components/TaskListContainer'
-import { TaskProvider } from '../features/tasksManagement/context/TaskContext'
 
 jest.mock('@/shared/hooks', () => ({
   ...jest.requireActual('@/shared/hooks'),
@@ -14,9 +13,7 @@ jest.mock('@/shared/hooks', () => ({
 
 test('permite agregar una tarea', async () => {
   render(
-    <TaskProvider>
-      <TaskListContainer />
-    </TaskProvider>
+    <TaskListContainer />
   )
 
   const input = screen.getByPlaceholderText(/Escribe una nueva tarea/i)
