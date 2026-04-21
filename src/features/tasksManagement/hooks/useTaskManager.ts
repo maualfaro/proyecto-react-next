@@ -25,15 +25,16 @@ export function useTaskManager() {
     localStorage.setItem('tasks', JSON.stringify(state.tasks))
   }, [state.tasks])
 
-  const addTask = (title: string) => {
+  const addTask = (title: string, description: string) => {
     const newTask: Task = {
       id: Date.now().toString(),
       title,
+      description,
       completed: false,
     }
 
     dispatch({ type: 'ADD_TASK', payload: newTask })
-  }
+}
 
   const toggleTask = (id: string) => {
     dispatch({ type: 'TOGGLE_TASK', payload: id })

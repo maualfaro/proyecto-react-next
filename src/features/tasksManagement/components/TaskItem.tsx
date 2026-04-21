@@ -2,11 +2,12 @@ import React from 'react'
 import type { Task } from '../types'
 import { Card } from '@/shared/ui/molecules'
 import { Button, Badge } from '@/shared/ui/atoms'
+import { useTasks } from '../context/TaskContext'
 
 type Props = {
   task: Task
   onToggle: (id: string) => void
-  onDelete: (id: string) => void 
+  onDelete: (id: string) => void
 }
 
 export const TaskItem = React.memo(function TaskItem({
@@ -14,7 +15,7 @@ export const TaskItem = React.memo(function TaskItem({
   onToggle,
   onDelete,
 }: Props) {
-  console.log('render TaskItem', task.id)
+  const { setSelectedTaskId } = useTasks()
 
   return (
     <Card
@@ -32,9 +33,21 @@ export const TaskItem = React.memo(function TaskItem({
             variant="danger"
             onClick={() => onDelete(task.id)}
           />
+
+          <Button
+            label="Ver tickets"
+            variant="primary"
+            onClick={() => setSelectedTaskId(task.id)}
+          />
         </div>
       }
     >
+      {task.description && (
+        <p style={{ fontSize: 13, color: '#6b7280' }}>
+          {task.description}
+        </p>
+      )}
+
       <Badge
         text={task.completed ? 'Completada' : 'Pendiente'}
         variant={task.completed ? 'success' : 'warning'}

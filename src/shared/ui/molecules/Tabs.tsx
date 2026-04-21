@@ -20,15 +20,14 @@ function useTabs() {
 }
 
 type TabsProps = {
-  children: ReactNode
-  defaultTab?: string
+  activeTab: string
+  onChangeTab: (tab: string) => void
+  children: React.ReactNode
 }
 
-function TabsRoot({ children, defaultTab = "tasks" }: TabsProps) {
-  const [activeTab, setActiveTab] = useState(defaultTab)
-
+function TabsRoot({ children, activeTab, onChangeTab }: TabsProps) {
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+    <TabsContext.Provider value={{ activeTab, setActiveTab: onChangeTab }}>
       <div>{children}</div>
     </TabsContext.Provider>
   )

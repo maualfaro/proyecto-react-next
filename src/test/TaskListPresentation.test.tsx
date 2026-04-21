@@ -15,6 +15,8 @@ const mockProps = {
   setFilter: jest.fn(),
   search: '',
   setSearch: jest.fn(),
+  description: '',
+  onChangeDescription: jest.fn(),
 }
 
 test('muestra mensaje cuando no hay tareas', () => {

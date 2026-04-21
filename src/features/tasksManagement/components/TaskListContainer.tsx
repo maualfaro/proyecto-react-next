@@ -31,7 +31,7 @@ export function TaskListContainer() {
     handleBlur,
     validate,
     reset,
-  } = useForm({ title: '' })
+  } = useForm({ title: '', description: '' })
 
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all')
 
@@ -61,18 +61,22 @@ export function TaskListContainer() {
     await new Promise((res) => setTimeout(res, 2000))
 
     return [
-      { id: '1', title: 'Aprender React', completed: false },
-      { id: '2', title: 'Practicar hooks', completed: true },
+      { id: '1', title: 'Aprender React', description: '', completed: false },
+      { id: '2', title: 'Practicar hooks', description: '', completed: true },
     ]
   }
 
   const { loading, error } = useAsync(fetchTasks, [])
 
-  const validateTask = (values: { title: string }) => {
-    const errors: { title?: string } = {}
+  const validateTask = (values: { title: string; description: string }) => {
+    const errors: { title?: string; description?: string } = {}
 
     if (!values.title.trim()) {
       errors.title = 'La tarea es requerida'
+    }
+
+    if (values.description.length > 100) {
+      errors.description = 'Máximo 100 caracteres'
     }
 
     return errors
@@ -85,8 +89,19 @@ export function TaskListContainer() {
     [handleChange]
   )
 
+  const handleChangeDescription = useCallback(
+    (value: string) => {
+      handleChange('description', value)
+    },
+    [handleChange]
+  )
+
   const handleBlurTask = useCallback(() => {
     handleBlur('title')
+  }, [handleBlur])
+
+  const handleBlurDescription = useCallback(() => {
+    handleBlur('description')
   }, [handleBlur])
 
   const handleToggleTask = useCallback(
@@ -106,15 +121,24 @@ export function TaskListContainer() {
 
   const handleAddTask = useCallback(() => {
     handleBlur('title')
+    handleBlur('description')
 
     const validationErrors = validate(validateTask)
 
     if (Object.keys(validationErrors).length > 0) return
 
-    addTask(values.title)
+    addTask(values.title, values.description)
     reset()
-  }, [handleBlur, validate, addTask, values.title, reset])
+  }, [
+    handleBlur,
+    validate,
+    addTask,
+    values.title,
+    values.description,
+    reset,
+  ])
 
+  // ⏳ estados async
   if (loading) return <p>Cargando tareas...</p>
   if (error) return <p>Error al cargar tareas</p>
 
@@ -127,13 +151,18 @@ export function TaskListContainer() {
         search={search}
         setSearch={setSearch}
         newTask={values.title}
+        description={values.description}
         error={errors.title}
-        touched={touched.title}
         onChangeNewTask={handleChangeTask}
         onBlurNewTask={handleBlurTask}
+        onChangeDescription={handleChangeDescription}
+        onBlurDescription={handleBlurDescription}
         onAddTask={handleAddTask}
         onToggleTask={handleToggleTask}
         onDeleteTask={handleDeleteTask}
+        titleError={errors.title}
+        descriptionError={errors.description}
+        touched={touched.title || touched.description}
       />
     </Suspense>
   )
