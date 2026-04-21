@@ -1,6 +1,16 @@
 import { TabsView } from '@/shared/ui/molecules'
 import { Avatar } from '@/shared/ui/atoms'
 import { AppProviders } from './providers/AppProviders'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Inicio | TaskFlow',
+  description: 'Aplicación para gestionar tareas de forma eficiente',
+  openGraph: {
+    title: 'Inicio | TaskFlow',
+    description: 'Aplicación para gestionar tareas de forma eficiente',
+  },
+}
 
 async function App() {
   return (

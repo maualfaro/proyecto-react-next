@@ -1,7 +1,17 @@
 // Server Component — se mantiene como server porque solo carga datos y renderiza la vista
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Tareas | TaskFlow',
+  description: 'Gestiona tus tareas fácilmente',
+  openGraph: {
+    title: 'Tareas | TaskFlow',
+    description: 'Gestiona tus tareas fácilmente',
+  },
+}
+
 async function getData() {
-  // Simula una carga lenta (para probar loading.tsx)
   await new Promise((resolve) => setTimeout(resolve, 3000))
 
   return []
@@ -14,7 +24,6 @@ export default async function TasksPage() {
     <div style={{ padding: '16px' }}>
       <h1>Tasks</h1>
 
-      {/* Aquí luego vas a renderizar tu lista real */}
       {tasks.length === 0 ? (
         <p>No hay tareas</p>
       ) : (

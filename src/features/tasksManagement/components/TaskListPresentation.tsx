@@ -1,10 +1,9 @@
 import type { Task } from '../types'
-import { Card } from '@/shared/ui/molecules'
-import { Button, Input, Badge } from '@/shared/ui/atoms'
+import { Input, Button } from '@/shared/ui/atoms'
+import React from 'react'
+import { TaskItem } from './TaskItem'
 
-//es server component porque no tiene estado ni eventos, solo renderiza la UI
-
-console.log({ Card, Button, Input, Badge })
+type Filter = 'all' | 'completed' | 'pending'
 
 type Props = {
   tasks: Task[]
@@ -15,9 +14,12 @@ type Props = {
   onBlurNewTask: () => void
   onAddTask: () => void
   onToggleTask: (id: string) => void
+
+  filter: Filter
+  setFilter: (value: Filter) => void
 }
 
-export function TaskListPresentation({
+export const TaskListPresentation = React.memo(function TaskListPresentation({
   tasks,
   newTask,
   error,
@@ -26,7 +28,11 @@ export function TaskListPresentation({
   onBlurNewTask,
   onAddTask,
   onToggleTask,
-}: Props){
+  filter,
+  setFilter,
+}: Props) {
+  console.log('render TaskListPresentation')
+
   return (
     <div
       style={{
@@ -37,6 +43,7 @@ export function TaskListPresentation({
         gap: 16,
       }}
     >
+      {/* INPUT */}
       <div
         style={{
           display: 'flex',
@@ -46,32 +53,43 @@ export function TaskListPresentation({
         }}
       >
         <div style={{ flex: 1 }}>
-          <div style={{ flex: 1 }}>
-        <div style={{ flex: 1 }}>
-      <Input
-        value={newTask}
-        onChange={onChangeNewTask}
-        onBlur={onBlurNewTask}
-        placeholder="Escribe una nueva tarea..."
-      />
+          <Input
+            value={newTask}
+            onChange={onChangeNewTask}
+            onBlur={onBlurNewTask}
+            placeholder="Escribe una nueva tarea..."
+          />
 
-      {touched && error && (
-        <p
-          style={{
-            color: '#ef4444',
-            fontSize: 12,
-            marginTop: 4,
-          }}
-        >
-          {error}
-        </p>
-      )}
-    </div>
-      </div>
+          {touched && error && (
+            <p
+              style={{
+                color: '#ef4444',
+                fontSize: 12,
+                marginTop: 4,
+              }}
+            >
+              {error}
+            </p>
+          )}
         </div>
+
         <div style={{ flexShrink: 0 }}>
           <Button label="Agregar" onClick={onAddTask} />
         </div>
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <Button
+          label="Todas"
+          onClick={() => setFilter('all')}
+        />
+        <Button
+          label="Completadas"
+          onClick={() => setFilter('completed')}
+        />
+        <Button
+          label="Pendientes"
+          onClick={() => setFilter('pending')}
+        />
       </div>
       <div
         style={{
@@ -95,33 +113,14 @@ export function TaskListPresentation({
           </div>
         ) : (
           tasks.map((task) => (
-            <Card
+            <TaskItem
               key={task.id}
-              title={task.title}
-              footer={
-                <Button
-                  label={task.completed ? 'Reabrir' : 'Completar'}
-                  variant={task.completed ? 'danger' : 'primary'}
-                  onClick={() => onToggleTask(task.id)}
-                />
-              }
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Badge
-                  text={task.completed ? 'Completada' : 'Pendiente'}
-                  variant={task.completed ? 'success' : 'warning'}
-                />
-              </div>
-            </Card>
+              task={task}
+              onToggle={onToggleTask}
+            />
           ))
         )}
       </div>
     </div>
   )
-}
+})
