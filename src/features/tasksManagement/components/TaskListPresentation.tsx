@@ -14,7 +14,8 @@ type Props = {
   onBlurNewTask: () => void
   onAddTask: () => void
   onToggleTask: (id: string) => void
-
+  search: string
+  setSearch: (value: string) => void
   filter: Filter
   setFilter: (value: Filter) => void
 }
@@ -30,6 +31,8 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
   onToggleTask,
   filter,
   setFilter,
+  search,
+  setSearch,
 }: Props) {
   console.log('render TaskListPresentation')
 
@@ -43,13 +46,18 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
         gap: 16,
       }}
     >
-      {/* INPUT */}
+      <Input
+        value={search}
+        onChange={setSearch}
+        placeholder="Buscar tarea..."
+      />
+
       <div
         style={{
           display: 'flex',
           gap: 10,
           width: '100%',
-          alignItems: 'stretch',
+          alignItems: 'flex-start',
         }}
       >
         <div style={{ flex: 1 }}>
@@ -109,7 +117,9 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
               borderRadius: 12,
             }}
           >
-            No hay tareas aún
+            {search
+              ? 'No se encontraron resultados'
+              : 'No hay tareas aún'}
           </div>
         ) : (
           tasks.map((task) => (

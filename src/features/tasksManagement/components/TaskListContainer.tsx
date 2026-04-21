@@ -5,10 +5,13 @@ import { useForm } from '@/shared/hooks'
 import { useTasks } from '../context/TaskContext'
 import { useAsync } from '@/shared/hooks'
 import { useMemo, useState, useCallback } from 'react'
+import { useDebounce } from '@/shared/hooks/useDebounce'
 
 // Client Component — usa custom hook
 export function TaskListContainer() {
   const { tasks, addTask, toggleTask } = useTasks()
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 300)
 
   const {
     values,
@@ -23,18 +26,25 @@ export function TaskListContainer() {
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all')
 
   const filteredTasks = useMemo(() => {
-    console.log('recalculando filtro...')
+  console.log('recalculando filtro + búsqueda...')
 
-    if (filter === 'completed') {
-      return tasks.filter(t => t.completed)
-    }
+  let result = tasks
 
-    if (filter === 'pending') {
-      return tasks.filter(t => !t.completed)
-    }
+  if (filter === 'completed') {
+    result = result.filter(t => t.completed)
+  }
 
-    return tasks
-  }, [tasks, filter])
+  if (filter === 'pending') {
+    result = result.filter(t => !t.completed)
+  }
+  if (debouncedSearch.trim()) {
+    result = result.filter(t =>
+      t.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+    )
+  }
+
+  return result
+}, [tasks, filter, debouncedSearch])
 
   const fetchTasks = async (signal: AbortSignal) => {
     await new Promise((res) => setTimeout(res, 2000))
@@ -88,6 +98,8 @@ export function TaskListContainer() {
       tasks={filteredTasks}
       filter={filter}
       setFilter={setFilter}
+      search={search}
+      setSearch={setSearch}
       newTask={values.title}
       error={errors.title}
       touched={touched.title}
