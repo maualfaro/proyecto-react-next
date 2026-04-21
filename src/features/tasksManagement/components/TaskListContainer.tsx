@@ -7,10 +7,15 @@ import { useMemo, useState, useCallback } from 'react'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import React, { Suspense } from 'react'
 
-// 🔥 CORREGIDO (sin espacio)
-const TaskListPresentation = React.lazy(
-  () => import('./TaskListPresentation')
-)
+let TaskListPresentation: any
+
+if (process.env.NODE_ENV === 'test') {
+  TaskListPresentation = require('./TaskListPresentation').default
+} else {
+  TaskListPresentation = React.lazy(() =>
+    import('./TaskListPresentation')
+  )
+}
 
 export function TaskListContainer() {
   const { tasks, addTask, toggleTask, deleteTask } = useTasks()

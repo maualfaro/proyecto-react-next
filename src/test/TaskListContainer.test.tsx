@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TaskListContainer } from '../features/tasksManagement/components/TaskListContainer'
 import { TaskProvider } from '../features/tasksManagement/context/TaskContext'
@@ -41,7 +41,6 @@ jest.mock('@/features/tasksManagement/components/TaskListPresentation', () => {
   }
 })
 
-
 jest.mock('@/shared/hooks', () => ({
   ...jest.requireActual('@/shared/hooks'),
   useAsync: () => ({
@@ -51,8 +50,8 @@ jest.mock('@/shared/hooks', () => ({
   }),
 }))
 
-beforeAll(() => {
-  window.confirm = jest.fn(() => true)
+beforeEach(() => {
+  jest.spyOn(window, 'confirm').mockReturnValue(true)
 })
 
 test('permite agregar una tarea', async () => {
@@ -86,8 +85,13 @@ test('permite eliminar una tarea', async () => {
 
   expect(screen.getByText('Tarea a eliminar')).toBeInTheDocument()
 
-  const deleteButton = screen.getByText(/Eliminar/i)
+  // 🔥 seleccionar el item correcto
+  const taskItem = screen.getByText('Tarea a eliminar').closest('div')!
+  const deleteButton = within(taskItem).getByRole('button', { name: /Eliminar/i })
+
   await userEvent.click(deleteButton)
 
-  expect(screen.queryByText('Tarea a eliminar')).not.toBeInTheDocument()
+  await waitFor(() => {
+    expect(screen.queryByText(/Tarea a eliminar/i)).not.toBeInTheDocument()
+  })
 })
