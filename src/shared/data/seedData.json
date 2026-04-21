@@ -1,0 +1,69 @@
+{
+  "tasks": [
+    {
+      "id": "t1",
+      "title": "Implementar autenticación",
+      "description": "Login y registro de usuarios",
+      "completed": false
+    },
+    {
+      "id": "t2",
+      "title": "Dashboard",
+      "description": "Vista principal con métricas",
+      "completed": false
+    },
+    {
+      "id": "t3",
+      "title": "Fix bugs UI",
+      "description": "Corrección de estilos",
+      "completed": true
+    }
+  ],
+  "tickets": [
+    {
+      "id": "tk1",
+      "title": "Crear formulario login",
+      "taskId": "t1",
+      "status": "backlog",
+      "priority": "high",
+      "assignee": "Juan",
+      "label": "auth"
+    },
+    {
+      "id": "tk2",
+      "title": "Validaciones de inputs",
+      "taskId": "t1",
+      "status": "in_progress",
+      "priority": "medium",
+      "assignee": "Ana",
+      "label": "auth"
+    },
+    {
+      "id": "tk3",
+      "title": "Gráficos de métricas",
+      "taskId": "t2",
+      "status": "review",
+      "priority": "low",
+      "assignee": "Carlos",
+      "label": "dashboard"
+    },
+    {
+      "id": "tk4",
+      "title": "Cards resumen",
+      "taskId": "t2",
+      "status": "done",
+      "priority": "medium",
+      "assignee": "Juan",
+      "label": "dashboard"
+    },
+    {
+      "id": "tk5",
+      "title": "Arreglar botones",
+      "taskId": "t3",
+      "status": "backlog",
+      "priority": "low",
+      "assignee": "Ana",
+      "label": "ui"
+    }
+  ]
+}

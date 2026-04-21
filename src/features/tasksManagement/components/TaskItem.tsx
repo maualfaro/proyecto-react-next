@@ -3,6 +3,7 @@ import type { Task } from '../types'
 import { Card } from '@/shared/ui/molecules'
 import { Button, Badge } from '@/shared/ui/atoms'
 import { useTasks } from '../context/TaskContext'
+import { useTickets } from '@/features/tickets/context/TicketContext'
 
 type Props = {
   task: Task
@@ -16,6 +17,11 @@ export const TaskItem = React.memo(function TaskItem({
   onDelete,
 }: Props) {
   const { setSelectedTaskId } = useTasks()
+  const { tickets } = useTickets()
+
+  const ticketCount = tickets.filter(
+    (t) => t.taskId === task.id
+  ).length
 
   return (
     <Card
@@ -48,10 +54,19 @@ export const TaskItem = React.memo(function TaskItem({
         </p>
       )}
 
-      <Badge
-        text={task.completed ? 'Completada' : 'Pendiente'}
-        variant={task.completed ? 'success' : 'warning'}
-      />
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <Badge
+          text={task.completed ? 'Completada' : 'Pendiente'}
+          variant={task.completed ? 'success' : 'warning'}
+        />
+
+        <Badge
+          text={`${ticketCount} ${
+            ticketCount === 1 ? 'ticket' : 'tickets'
+          }`}
+          variant="success"
+        />
+      </div>
     </Card>
   )
 })

@@ -9,22 +9,16 @@ type Props = {
   tasks: Task[]
   newTask: string
   description: string
-
-  titleError?: string
-  descriptionError?: string
+  error?: string
   touched?: boolean
-
   onChangeNewTask: (value: string) => void
   onChangeDescription: (value: string) => void
   onBlurNewTask: () => void
-
   onAddTask: () => void
   onToggleTask: (id: string) => void
   onDeleteTask: (id: string) => void
-
   search: string
   setSearch: (value: string) => void
-
   filter: Filter
   setFilter: (value: Filter) => void
 }
@@ -33,8 +27,7 @@ const TaskListPresentation = React.memo(function TaskListPresentation({
   tasks,
   newTask,
   description,
-  titleError,
-  descriptionError,
+  error,
   touched,
   onChangeNewTask,
   onChangeDescription,
@@ -66,52 +59,38 @@ const TaskListPresentation = React.memo(function TaskListPresentation({
       <div
         style={{
           display: 'flex',
-          gap: 10,
+          flexDirection: 'column',
+          gap: 12,
           width: '100%',
-          alignItems: 'flex-start',
         }}
       >
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-          }}
-        >
-          <Input
-            value={newTask}
-            onChange={onChangeNewTask}
-            onBlur={onBlurNewTask}
-            placeholder="Escribe una nueva tarea..."
-          />
+        <Input
+          value={newTask}
+          onChange={onChangeNewTask}
+          onBlur={onBlurNewTask}
+          placeholder="Escribe una nueva tarea..."
+        />
 
-          {touched && titleError && (
-            <p style={{ color: '#ef4444', fontSize: 12 }}>
-              {titleError}
-            </p>
-          )}
+        <Input
+          value={description}
+          onChange={onChangeDescription}
+          placeholder="Descripción breve..."
+        />
 
-          <Input
-            value={description}
-            onChange={onChangeDescription}
-            placeholder="Descripción breve..."
-          />
-
-          {touched && descriptionError && (
-            <p style={{ color: '#ef4444', fontSize: 12 }}>
-              {descriptionError}
-            </p>
-          )}
-
-          <p style={{ fontSize: 11, color: '#9ca3af' }}>
-            {description.length}/100
-          </p>
-        </div>
-
-        <div style={{ flexShrink: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button label="Agregar" onClick={onAddTask} />
         </div>
+
+        {touched && error && (
+          <p
+            style={{
+              color: '#ef4444',
+              fontSize: 12,
+            }}
+          >
+            {error}
+          </p>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: 8 }}>

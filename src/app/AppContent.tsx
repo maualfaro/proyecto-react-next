@@ -1,8 +1,8 @@
 'use client'
 
-import { TabsView } from '@/shared/ui/molecules'
 import { useState, useEffect } from 'react'
 import { useTasks } from '@/features/tasksManagement/context/TaskContext'
+import { TabsView } from '@/shared/ui/molecules'
 
 export default function AppContent() {
   const [activeTab, setActiveTab] = useState('tasks')
@@ -10,9 +10,14 @@ export default function AppContent() {
 
   useEffect(() => {
     if (selectedTaskId) {
-      setActiveTab('projects') 
+      setActiveTab('tickets')
     }
   }, [selectedTaskId])
 
-  return <TabsView activeTab={activeTab} onChangeTab={setActiveTab} />
+  return (
+    <TabsView
+      activeTab={activeTab}
+      onChangeTab={setActiveTab}
+    />
+  )
 }

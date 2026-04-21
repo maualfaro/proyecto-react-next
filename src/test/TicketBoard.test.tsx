@@ -2,13 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TaskListContainer } from '@/features/tasksManagement/components/TaskListContainer'
 import { TaskProvider } from '@/features/tasksManagement/context/TaskContext'
-
-
-jest.mock('@/features/tickets/context/TicketContext', () => ({
-  useTickets: () => ({
-    tickets: [],
-  }),
-}))
+import { TicketProvider } from '@/features/tickets/context/TicketContext'
 
 jest.mock('@/shared/hooks', () => ({
   ...jest.requireActual('@/shared/hooks'),
@@ -19,12 +13,17 @@ jest.mock('@/shared/hooks', () => ({
   }),
 }))
 
-test('filtra tareas completadas', async () => {
+const renderWithProviders = () =>
   render(
     <TaskProvider>
-      <TaskListContainer />
+      <TicketProvider>
+        <TaskListContainer />
+      </TicketProvider>
     </TaskProvider>
   )
+
+test('filtra tareas completadas', async () => {
+  renderWithProviders()
 
   const input = screen.getByPlaceholderText(/Escribe una nueva tarea/i)
   const addButton = screen.getByText(/Agregar/i)

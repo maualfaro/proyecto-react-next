@@ -3,13 +3,19 @@
 import { useReducer, useEffect } from 'react'
 import { taskReducer, initialState } from '../state/taskReducer'
 import type { Task } from '../types'
+import seedData from '@/shared/data/seedData.json'
+
 
 const getInitialTasks = (): Task[] => {
   if (typeof window === 'undefined') return []
 
   try {
     const stored = localStorage.getItem('tasks')
-    return stored ? JSON.parse(stored) : []
+
+    if (stored) return JSON.parse(stored)
+
+    localStorage.setItem('tasks', JSON.stringify(seedData.tasks))
+    return seedData.tasks
   } catch {
     return []
   }
