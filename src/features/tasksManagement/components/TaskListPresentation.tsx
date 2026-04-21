@@ -1,6 +1,6 @@
+import React from 'react'
 import type { Task } from '../types'
 import { Input, Button } from '@/shared/ui/atoms'
-import React from 'react'
 import { TaskItem } from './TaskItem'
 
 type Filter = 'all' | 'completed' | 'pending'
@@ -21,7 +21,7 @@ type Props = {
   setFilter: (value: Filter) => void
 }
 
-export const TaskListPresentation = React.memo(function TaskListPresentation({
+const TaskListPresentation = React.memo(function TaskListPresentation({
   tasks,
   newTask,
   error,
@@ -36,8 +36,6 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
   search,
   setSearch,
 }: Props) {
-  console.log('render TaskListPresentation')
-
   return (
     <div
       style={{
@@ -53,7 +51,6 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
         onChange={setSearch}
         placeholder="Buscar tarea..."
       />
-
       <div
         style={{
           display: 'flex',
@@ -88,19 +85,11 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
         </div>
       </div>
       <div style={{ display: 'flex', gap: 8 }}>
-        <Button
-          label="Todas"
-          onClick={() => setFilter('all')}
-        />
-        <Button
-          label="Completadas"
-          onClick={() => setFilter('completed')}
-        />
-        <Button
-          label="Pendientes"
-          onClick={() => setFilter('pending')}
-        />
+        <Button label="Todas" onClick={() => setFilter('all')} />
+        <Button label="Completadas" onClick={() => setFilter('completed')} />
+        <Button label="Pendientes" onClick={() => setFilter('pending')} />
       </div>
+
       <div
         style={{
           display: 'flex',
@@ -137,3 +126,5 @@ export const TaskListPresentation = React.memo(function TaskListPresentation({
     </div>
   )
 })
+
+export default TaskListPresentation

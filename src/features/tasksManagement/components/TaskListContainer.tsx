@@ -1,11 +1,16 @@
 'use client'
 
-import { TaskListPresentation } from './TaskListPresentation'
 import { useForm } from '@/shared/hooks'
 import { useTasks } from '../context/TaskContext'
 import { useAsync } from '@/shared/hooks'
 import { useMemo, useState, useCallback } from 'react'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+import React, { Suspense } from 'react'
+
+// 🔥 CORREGIDO (sin espacio)
+const TaskListPresentation = React.lazy(
+  () => import('./TaskListPresentation')
+)
 
 export function TaskListContainer() {
   const { tasks, addTask, toggleTask, deleteTask } = useTasks()
@@ -56,7 +61,7 @@ export function TaskListContainer() {
     ]
   }
 
-  const { data, loading, error } = useAsync(fetchTasks, [])
+  const { loading, error } = useAsync(fetchTasks, [])
 
   const validateTask = (values: { title: string }) => {
     const errors: { title?: string } = {}
@@ -89,7 +94,6 @@ export function TaskListContainer() {
   const handleDeleteTask = useCallback(
     (id: string) => {
       if (!confirm('¿Eliminar tarea?')) return
-
       deleteTask(id)
     },
     [deleteTask]
@@ -106,25 +110,26 @@ export function TaskListContainer() {
     reset()
   }, [handleBlur, validate, addTask, values.title, reset])
 
-  // ⏳ estados async
   if (loading) return <p>Cargando tareas...</p>
   if (error) return <p>Error al cargar tareas</p>
 
   return (
-    <TaskListPresentation
-      tasks={filteredTasks}
-      filter={filter}
-      setFilter={setFilter}
-      search={search}
-      setSearch={setSearch}
-      newTask={values.title}
-      error={errors.title}
-      touched={touched.title}
-      onChangeNewTask={handleChangeTask}
-      onBlurNewTask={handleBlurTask}
-      onAddTask={handleAddTask}
-      onToggleTask={handleToggleTask}
-      onDeleteTask={handleDeleteTask} 
-    />
+    <Suspense fallback={<p>Cargando UI...</p>}>
+      <TaskListPresentation
+        tasks={filteredTasks}
+        filter={filter}
+        setFilter={setFilter}
+        search={search}
+        setSearch={setSearch}
+        newTask={values.title}
+        error={errors.title}
+        touched={touched.title}
+        onChangeNewTask={handleChangeTask}
+        onBlurNewTask={handleBlurTask}
+        onAddTask={handleAddTask}
+        onToggleTask={handleToggleTask}
+        onDeleteTask={handleDeleteTask}
+      />
+    </Suspense>
   )
 }

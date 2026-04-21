@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { TaskListPresentation } from '../features/tasksManagement/components/TaskListPresentation'
+import TaskListPresentation from '@/features/tasksManagement/components/TaskListPresentation'
 
 const mockProps = {
   tasks: [],
@@ -10,6 +10,7 @@ const mockProps = {
   onBlurNewTask: jest.fn(),
   onAddTask: jest.fn(),
   onToggleTask: jest.fn(),
+  onDeleteTask: jest.fn(),
   filter: 'all' as const,
   setFilter: jest.fn(),
   search: '',
