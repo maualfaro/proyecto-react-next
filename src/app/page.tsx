@@ -1,5 +1,5 @@
 import { TabsView } from '@/shared/ui/molecules'
-import { TaskProvider } from '@/features/tasksManagement/context/TaskContext'
+import { Avatar } from '@/shared/ui/atoms'
 import { AppProviders } from './providers/AppProviders'
 
 async function App() {
@@ -26,32 +26,46 @@ async function App() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 12,
+            justifyContent: 'space-between', 
+            width: '100%',
           }}
         >
           <div
             style={{
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
-              background: '#22c55e',
-              boxShadow: '0 0 0 4px rgba(34,197,94,0.15)',
-            }}
-          />
-
-          <h1
-            style={{
-              margin: 0,
-              fontSize: 24,
-              fontWeight: 700,
-              color: '#111827',
-              letterSpacing: '-0.03em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
             }}
           >
-            Proyecto React
-          </h1>
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: '#22c55e',
+                boxShadow: '0 0 0 4px rgba(34,197,94,0.15)',
+              }}
+            />
+
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 24,
+                fontWeight: 700,
+                color: '#111827',
+                letterSpacing: '-0.03em',
+              }}
+            >
+              Proyecto React
+            </h1>
+          </div>
+          <Avatar
+            src="https://i.pravatar.cc/40"
+            alt="User avatar"
+          />
         </div>
       </div>
+
       <AppProviders>
         <TabsView />
       </AppProviders>
