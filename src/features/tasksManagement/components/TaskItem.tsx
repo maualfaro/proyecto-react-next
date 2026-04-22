@@ -3,7 +3,7 @@ import type { Task } from '../types'
 import { Card } from '@/shared/ui/molecules'
 import { Button, Badge } from '@/shared/ui/atoms'
 import { useTasks } from '../context/TaskContext'
-import { useTickets } from '@/features/tickets/context/TicketContext'
+import { useTicketStore } from '@/store/useTicketStore'
 
 type Props = {
   task: Task
@@ -17,7 +17,7 @@ export const TaskItem = React.memo(function TaskItem({
   onDelete,
 }: Props) {
   const { setSelectedTaskId } = useTasks()
-  const { tickets } = useTickets()
+  const tickets = useTicketStore((s) => s.tickets)
 
   const ticketCount = tickets.filter(
     (t) => t.taskId === task.id

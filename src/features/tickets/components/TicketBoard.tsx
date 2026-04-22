@@ -7,20 +7,22 @@ import { useMemo } from 'react'
 import { Input } from '@/shared/ui/atoms'
 import { TicketColumn } from './TicketColumn'
 import { TicketForm } from './TicketForm'
+import { useTicketStore } from '@/store/useTicketStore'
 
 export function TicketBoard() {
-  const {
-    tickets,
-    moveTicket,
-    moveTicketBack,
-    deleteTicket,
-    search,
-    setSearch,
-    priorityFilter,
-    setPriorityFilter,
-    assigneeFilter,
-    setAssigneeFilter,
-  } = useTickets()
+  const tickets = useTicketStore(s => s.tickets)
+  const moveTicket = useTicketStore(s => s.moveTicket)
+  const moveTicketBack = useTicketStore(s => s.moveTicketBack)
+  const deleteTicket = useTicketStore(s => s.deleteTicket)
+
+  const search = useTicketStore(s => s.search)
+  const setSearch = useTicketStore(s => s.setSearch)
+
+  const priorityFilter = useTicketStore(s => s.priorityFilter)
+  const setPriorityFilter = useTicketStore(s => s.setPriorityFilter)
+
+  const assigneeFilter = useTicketStore(s => s.assigneeFilter)
+  const setAssigneeFilter = useTicketStore(s => s.setAssigneeFilter)
 
   const {
     selectedTaskId,

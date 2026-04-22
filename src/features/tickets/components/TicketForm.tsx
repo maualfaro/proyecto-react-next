@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { useTickets } from '../context/TicketContext'
 import { useTasks } from '@/features/tasksManagement/context/TaskContext'
 import { Input, Button } from '@/shared/ui/atoms'
+import { useTicketStore } from '@/store/useTicketStore'
 
 export function TicketForm() {
-  const { addTicket } = useTickets()
+  const addTicket = useTicketStore(s => s.addTicket)
   const { selectedTaskId } = useTasks()
 
   const [title, setTitle] = useState('')
