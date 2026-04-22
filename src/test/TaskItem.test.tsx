@@ -2,6 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TaskProvider } from '@/features/tasksManagement/context/TaskContext'
 import { TaskListContainer } from '@/features/tasksManagement/components/TaskListContainer'
+jest.mock('@/shared/data/seedData.json', () => ({
+  tasks: [],
+}))
+
 
 jest.mock('react', () => {
   const actual = jest.requireActual('react')

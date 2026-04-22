@@ -4,6 +4,14 @@ import { TaskListContainer } from '@/features/tasksManagement/components/TaskLis
 import { TaskProvider } from '@/features/tasksManagement/context/TaskContext'
 import { TicketProvider } from '@/features/tickets/context/TicketContext'
 
+jest.mock('@/shared/data/seedData.json', () => ({
+  tasks: [],
+}))
+jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null)
+beforeEach(() => {
+  localStorage.clear()
+})
+
 jest.mock('@/shared/hooks', () => ({
   ...jest.requireActual('@/shared/hooks'),
   useAsync: () => ({
